@@ -6,6 +6,7 @@ colorTo: blue
 sdk: static
 pinned: false
 short_description: Talk with Reachy Mini !
+suggested_storage: large
 tags:
  - reachy_mini
  - reachy_mini_python_app
