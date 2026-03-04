@@ -45,7 +45,7 @@ def run(
     # Putting these dependencies here makes the dashboard faster to load when the conversation app is installed
     from reachy_mini_conversation_app.moves import MovementManager
     from reachy_mini_conversation_app.console import LocalStream
-    from reachy_mini_conversation_app.ollama_handler import OllamaHandler
+    from reachy_mini_conversation_app.gemini_handler import GeminiLiveHandler  # ← changed
     from reachy_mini_conversation_app.tools.core_tools import ToolDependencies
     from reachy_mini_conversation_app.audio.head_wobbler import HeadWobbler
 
@@ -90,7 +90,7 @@ def run(
             logger.error("Please check your configuration and try again.")
             sys.exit(1)
 
-    # Auto-enable Gradio in simulation mode (both MuJoCo for deamon and mockup-sim for desktop app)
+    # Auto-enable Gradio in simulation mode (both MuJoCo for daemon and mockup-sim for desktop app)
     status = robot.client.get_status()
     is_simulation = status.get("simulation_enabled", False) or status.get("mockup_sim_enabled", False)
 
@@ -126,7 +126,7 @@ def run(
     )
     logger.debug(f"Chatbot avatar images: {chatbot.avatar_images}")
 
-    handler = OllamaHandler(deps, gradio_mode=args.gradio, instance_path=instance_path)
+    handler = GeminiLiveHandler(deps, gradio_mode=args.gradio, instance_path=instance_path)  # ← changed
 
     stream_manager: gr.Blocks | LocalStream | None = None
 
