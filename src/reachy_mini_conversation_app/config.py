@@ -117,9 +117,8 @@ class Config:
     # Vision (optional, used with --local-vision CLI flag)
     HF_HOME = os.getenv("HF_HOME", "./cache")
     LOCAL_VISION_MODEL = os.getenv("LOCAL_VISION_MODEL", "HuggingFaceTB/SmolVLM2-2.2B-Instruct")
-    HF_TOKEN = os.getenv("HF_TOKEN")  # Optional, falls back to hf auth login if not set
 
-    logger.debug(f"Model: {MODEL_NAME}, Ollama: {OLLAMA_BASE_URL}, STT: {STT_MODEL}, TTS: {TTS_VOICE}")
+    logger.debug(f"Model: {MODEL_NAME}, STT: {STT_MODEL}, TTS: {TTS_VOICE}")
 
     _profiles_directory_env = os.getenv("REACHY_MINI_EXTERNAL_PROFILES_DIRECTORY")
     PROFILES_DIRECTORY = (
