@@ -25,8 +25,6 @@ from datetime import datetime
 import cv2
 import numpy as np
 import gradio as gr
-import pyttsx3
-import miniaudio
 from huggingface_hub import InferenceClient
 from fastrtc import AdditionalOutputs, AsyncStreamHandler, wait_for_item, audio_to_int16
 from numpy.typing import NDArray
@@ -454,6 +452,13 @@ class HuggingFaceHandler(AsyncStreamHandler):
         if not text.strip():
             return
 
+        try:
+            import pyttsx3
+            import miniaudio
+        except ImportError as e:
+            logger.error("TTS dependencies not installed (%s). Install pyttsx3 and miniaudio.", e)
+            return
+
         async with self._tts_lock:
             loop = asyncio.get_event_loop()
             tmp_fd, tmp_path = tempfile.mkstemp(suffix=".wav")
@@ -562,6 +567,7 @@ class HuggingFaceHandler(AsyncStreamHandler):
     async def get_available_voices(self) -> list[str]:
         """Return available pyttsx3 voice names."""
         try:
+            import pyttsx3
             loop = asyncio.get_event_loop()
 
             def _get():
