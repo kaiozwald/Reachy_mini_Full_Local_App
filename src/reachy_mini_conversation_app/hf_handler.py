@@ -167,6 +167,7 @@ class HuggingFaceHandler(AsyncStreamHandler):
         self._messages = [{"role": "system", "content": get_session_instructions()}]
         self._tts_voice = getattr(config, "TTS_VOICE", "")
 
+
         self._connected_event.set()
         logger.info(
             "HuggingFaceHandler ready — model=%s  stt=%s  tts_voice=%r",
