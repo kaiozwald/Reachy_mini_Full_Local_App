@@ -468,6 +468,7 @@ class HuggingFaceHandler(AsyncStreamHandler):
                 def _tts_save() -> bool:
                     """Run pyttsx3 synchronously and save to tmp_path."""
                     try:
+                        
                         engine = pyttsx3.init()
                         engine.setProperty("rate", 165)
                         voices = engine.getProperty("voices") or []
