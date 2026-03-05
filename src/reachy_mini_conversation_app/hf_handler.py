@@ -145,18 +145,23 @@ class HuggingFaceHandler(AsyncStreamHandler):
         )
 
         # 2. faster-whisper STT
+        # Use device="cpu" + compute_type="float32" for maximum compatibility with
+        # embedded/ARM CPUs (avoids AVX2/AVX512 "Illegal instruction" crashes).
         stt_model = getattr(config, "STT_MODEL", "base")
-        try:
-            from faster_whisper import WhisperModel
+        for compute_type in ("float32", "int8"):
+            try:
+                from faster_whisper import WhisperModel
 
-            self.whisper_model = await loop.run_in_executor(
-                None,
-                lambda: WhisperModel(stt_model, device="auto", compute_type="int8"),
-            )
-            logger.info("Loaded faster-whisper model: %s", stt_model)
-        except Exception as e:
-            logger.error("Failed to load STT model '%s': %s", stt_model, e)
-            logger.warning("Speech-to-text will be unavailable.")
+                self.whisper_model = await loop.run_in_executor(
+                    None,
+                    lambda ct=compute_type: WhisperModel(stt_model, device="cpu", compute_type=ct),
+                )
+                logger.info("Loaded faster-whisper model: %s  compute_type=%s", stt_model, compute_type)
+                break
+            except Exception as e:
+                logger.warning("WhisperModel failed with compute_type=%s: %s", compute_type, e)
+        else:
+            logger.error("All faster-whisper compute_type options failed. STT unavailable.")
 
         # 3. Conversation bootstrap
         self._messages = [{"role": "system", "content": get_session_instructions()}]
