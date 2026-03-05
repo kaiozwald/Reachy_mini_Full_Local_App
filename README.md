@@ -14,7 +14,7 @@ tags:
 
 # Reachy Mini conversation app
 
-Conversational app for the Reachy Mini robot combining OpenAI's realtime APIs, vision pipelines, and choreographed motion libraries.
+Conversational app for the Reachy Mini robot combining open-source models (Llama 3.1 via Hugging Face Inference API), local STT/TTS pipelines, and choreographed motion libraries.
 
 ![Reachy Mini Dance](docs/assets/reachy_mini_dance.gif)
 
@@ -27,8 +27,8 @@ The app follows a layered architecture connecting the user, AI services, and rob
 </p>
 
 ## Overview
-- Real-time audio conversation loop powered by the OpenAI realtime API and `fastrtc` for low-latency streaming.
-- Vision processing uses gpt-realtime by default (when camera tool is used), with optional local vision processing using SmolVLM2 model running on-device (CPU/GPU/MPS) via `--local-vision` flag.
+- Real-time audio conversation loop powered by Hugging Face Inference API (Llama 3.1), faster-whisper (STT), and pyttsx3 (TTS) â€” no local GPU required.
+- Vision processing uses the local vision model (SmolVLM2) or tool-based capture, running on-device via `--local-vision` flag.
 - Layered motion system queues primary moves (dances, emotions, goto poses, breathing) while blending speech-reactive wobble and face-tracking.
 - Async tool dispatch integrates robot motion, camera capture, and optional face-tracking capabilities through a Gradio web UI with live transcripts.
 
@@ -108,8 +108,8 @@ Some wheels (e.g. PyTorch) are large and require compatible CUDA or CPU buildsâ€
 
 | Variable | Description |
 |----------|-------------|
-| `OPENAI_API_KEY` | Required. Grants access to the OpenAI realtime endpoint.
-| `MODEL_NAME` | Override the realtime model (defaults to `gpt-realtime`). Used for both conversation and vision (unless `--local-vision` flag is used).
+| `HF_TOKEN` | Required. Your Hugging Face token (get one at https://huggingface.co/settings/tokens). Must have access to the chosen model.
+| `MODEL_NAME` | The HF model to use (default: `meta-llama/Llama-3.1-8B-Instruct`).
 | `HF_HOME` | Cache directory for local Hugging Face downloads (only used with `--local-vision` flag, defaults to `./cache`).
 | `HF_TOKEN` | Optional token for Hugging Face models (only used with `--local-vision` flag, falls back to `huggingface-cli login`).
 | `LOCAL_VISION_MODEL` | Hugging Face model path for local vision processing (only used with `--local-vision` flag, defaults to `HuggingFaceTB/SmolVLM2-2.2B-Instruct`).

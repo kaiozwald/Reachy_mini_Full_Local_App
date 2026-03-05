@@ -20,8 +20,15 @@ dependencies = [
     #Environment variables
     "python-dotenv",
 
-    #OpenAI
-    "openai>=2.1",
+    #Hugging Face Inference API
+    "huggingface-hub>=0.23",
+
+    #STT (Speech-to-Text)
+    "faster-whisper>=1.0",
+
+    #TTS (Text-to-Speech)
+    "pyttsx3>=2.90",
+    "miniaudio>=1.60",
 
     #Reachy mini
     "reachy_mini_dances_library",

@@ -104,14 +104,14 @@ else:
 class Config:
     """Configuration class for the conversation app."""
 
-    # Ollama
-    OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-    MODEL_NAME = os.getenv("MODEL_NAME", "llama3.2")
+    # Hugging Face Inference API
+    HF_TOKEN = os.getenv("HF_TOKEN")  # Required for gated models like Llama
+    MODEL_NAME = os.getenv("MODEL_NAME", "meta-llama/Llama-3.1-8B-Instruct")
 
     # STT (faster-whisper model size: tiny, base, small, medium, large-v3)
     STT_MODEL = os.getenv("STT_MODEL", "base")
 
-    # TTS (edge-tts voice name)
+    # TTS
     TTS_VOICE = os.getenv("TTS_VOICE", "en-US-AriaNeural")
 
     # Vision (optional, used with --local-vision CLI flag)

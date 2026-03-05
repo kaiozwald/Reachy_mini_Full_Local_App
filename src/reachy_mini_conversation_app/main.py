@@ -45,7 +45,7 @@ def run(
     # Putting these dependencies here makes the dashboard faster to load when the conversation app is installed
     from reachy_mini_conversation_app.moves import MovementManager
     from reachy_mini_conversation_app.console import LocalStream
-    from reachy_mini_conversation_app.gemini_handler import GeminiLiveHandler  # ← changed
+    from reachy_mini_conversation_app.hf_handler import HuggingFaceHandler
     from reachy_mini_conversation_app.tools.core_tools import ToolDependencies
     from reachy_mini_conversation_app.audio.head_wobbler import HeadWobbler
 
@@ -126,7 +126,7 @@ def run(
     )
     logger.debug(f"Chatbot avatar images: {chatbot.avatar_images}")
 
-    handler = GeminiLiveHandler(deps, gradio_mode=args.gradio, instance_path=instance_path)  # ← changed
+    handler = HuggingFaceHandler(deps, gradio_mode=args.gradio, instance_path=instance_path)
 
     stream_manager: gr.Blocks | LocalStream | None = None
 
